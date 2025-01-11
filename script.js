@@ -62,7 +62,7 @@ function moveWord(){
 
 
     let wordFall = setInterval(()=>{
-        topPosition += 2;
+        topPosition += 3;
         wordElement.style.top = topPosition+"px";
 
         if (topPosition > containerHeight) {
@@ -119,14 +119,33 @@ function increaseScore() {
 }
 
 function loseLife() {
+    if (!Start) return;
     lives -= 1;
     livesSpan.innerText = lives;
 
     if (lives <= 0) {
-        alert("Game Over!");
+
+        lives = 0;
+        livesSpan.innerText = 0;
+
+        GameOver();
         resetGame();
     }
 }
+
+function GameOver(){
+  const finalScoreSpan = document.getElementById("final-score");
+  finalScoreSpan.innerText = score; 
+
+  const gameOverwindow = document.getElementById("game-over-window");
+  gameOverwindow.style.display = "flex"; 
+}
+
+const playAgainBtn = document.getElementById("Restart");
+playAgainBtn.addEventListener("click", function() {
+document.getElementById("game-over-window").style.display = "none";  
+  startGame();
+});
 
 function resetGame() {
     Start = false;
@@ -141,7 +160,7 @@ function resetGame() {
         clearInterval(obj.intervalId);
         obj.element.remove();
       });
-      
+
     movingWords = []; 
     typedInput.value = "";
 }
